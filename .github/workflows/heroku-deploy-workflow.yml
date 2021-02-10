@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master # Changing the branch here would also work
+
+env:
+  HD_HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+  HD_HEROKU_APP_NAME: ${{secrets.HEROKU_APP_NAME}}
+  HD_HEROKU_LOGIN: ${{secrets.HEROKU_LOGIN}}
+  HD_OAUTH_CLIENT_ID: ${{secrets.OAUTH_CLIENT_ID}}
+  HD_OAUTH_CLIENT_SECRET: ${{secrets.OAUTH_CLIENT_SECRET}}
+  HD_CALLBACK_URI: ${{secrets.CALLBACK_URI}}
+  HD_COOKIE_SECRET: ${{secrets.COOKIE_SECRET}}
+  HD_NODE_ENV: ${{secrets.NODE_ENV}}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.10.9 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_LOGIN}}
+          remote_branch: master
